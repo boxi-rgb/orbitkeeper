@@ -13,7 +13,8 @@ import {
 } from './world.js';
 
 const START_SECONDS = 4;
-const PLAY_SECONDS = 26;
+const PLAY_SECONDS = 12;
+const PLAY_LIMIT_SECONDS = 75;
 const CLEAR_LIMIT_SECONDS = 300;
 const END_LIMIT_SECONDS = 900;
 /** How often the careless pilot of the end scene reconsiders, in steps. */
@@ -101,11 +102,24 @@ export function stageShot(name, world) {
     return { screen: 'title', best: 0, fxEvents: [] };
   }
   if (name === 'play') {
+    // Play until a frame busy enough to show the game at work: several shards and
+    // rocks on screen at once and a combo running. The search is deterministic —
+    // the same seed always stops on the same frame.
     let fxEvents = [];
-    const steps = PLAY_SECONDS / STEP;
-    for (let i = 0; i < steps; i += 1) {
+    const limit = PLAY_LIMIT_SECONDS / STEP;
+    const warmup = PLAY_SECONDS / STEP;
+    for (let i = 0; i < limit; i += 1) {
       const events = world.step(STEP, goodPilot(world.state), false);
-      if (i >= steps - 8) fxEvents = fxEvents.concat(events);
+      fxEvents = fxEvents.concat(events).slice(-14);
+      if (i < warmup || world.state.phase !== 'play') continue;
+      let rocks = 0;
+      let active = 0;
+      for (const item of world.state.items) {
+        if (!item.active) continue;
+        active += 1;
+        if (item.kind === KIND_ROCK) rocks += 1;
+      }
+      if (active >= 9 && rocks >= 2 && world.state.combo >= 3) break;
     }
     return { screen: 'play', best: 0, fxEvents };
   }
