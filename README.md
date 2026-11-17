@@ -1,6 +1,10 @@
 # Orbitkeeper
 
-A small orbital defence game for make.fun's **best-game-01** ("Make the best game").
+[![make.fun · best-game-01](https://make.fun/badge/best-game-01.svg)](https://make.fun/bounty/best-game-01)
+[![rank](https://make.fun/badge/best-game-01/boxi-rgb/orbitkeeper/rank.svg)](https://make.fun/bounty/best-game-01/leaderboard)
+[![reward](https://make.fun/badge/best-game-01/boxi-rgb/orbitkeeper/reward.svg)](https://make.fun/bounty/best-game-01)
+
+A small orbital defence game for make.fun's **best-game-01** ("Make the best game"), entered in the [make.fun bounty](https://make.fun/bounty/best-game-01).
 
 You are the drone riding an orbit ring around a living planet. Starlight shards fall
 in from deep space: catch them to score, build a combo multiplier and fill each
